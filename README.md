@@ -47,7 +47,11 @@ Make sure you have the following installed:
 4. **Set up environment variables**
 
     - In the root directory of the project, create a file named .env and add the following line:
+
+    ```bash
       SECRET_KEY=your_jwt_secret_key_here
+
+    ```
 
 5. **Run the app**
    nodemon server
