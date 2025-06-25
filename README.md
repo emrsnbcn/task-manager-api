@@ -39,6 +39,8 @@ Make sure you have the following installed:
 
 3. **Install dependencies**
 
+    - Open your terminal and type in
+
     ```bash
     npm install
 
@@ -54,4 +56,10 @@ Make sure you have the following installed:
     ```
 
 5. **Run the app**
-   nodemon server
+
+    - Open your terminal and type in
+
+    ```bash
+    nodemon server
+
+    ```
