@@ -5,8 +5,6 @@ const isAuth = require("../middlewares/auth");
 
 //GET ALL TASK THAT BELONGS TO YOU
 router.get("/", isAuth, async (req, res) => {
-	console.log(req.user);
-
 	try {
 		const tasks = await Task.find({ owner: req.user._id });
 		return res.json(tasks);
@@ -46,6 +44,7 @@ router.post("/", isAuth, (req, res) => {
 
 //UPDATE TASK DESCRIPTION
 router.put("/:id", isAuth, async (req, res) => {
+	console.log(req.body);
 	try {
 		let task = await Task.findById(req.params.id);
 		if (!task || task.owner != req.user._id) {
@@ -54,6 +53,30 @@ router.put("/:id", isAuth, async (req, res) => {
 			let updatedTask = await Task.findByIdAndUpdate(
 				req.params.id,
 				{ ...req.body, updated_at: Date.now() },
+				{ new: true }
+			);
+			return res.json({
+				task: updatedTask,
+				msg: "Task updated successfully",
+			});
+		}
+	} catch (e) {
+		return res
+			.status(400)
+			.json({ error: e.message, msg: "Cannot udpate task" });
+	}
+});
+
+//UPDATE TASK COMPLETED
+router.patch("/:id", isAuth, async (req, res) => {
+	try {
+		let task = await Task.findById(req.params.id);
+		if (!task || task.owner != req.user._id) {
+			return res.status(403).json({ msg: "You cannot update this task" });
+		} else {
+			let updatedTask = await Task.findByIdAndUpdate(
+				req.params.id,
+				{ ...req.body, completed: true },
 				{ new: true }
 			);
 			return res.json({
